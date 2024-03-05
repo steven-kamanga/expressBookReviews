@@ -34,7 +34,9 @@ regd_users.post("/login", (req, res) => {
 
   try {
     const token = jwt.sign({ username }, SECRET);
-    return res.status(200).json({ message: "Login successful", token: token });
+    return res
+      .status(200)
+      .json({ message: "Customer successfully logged in", token: token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -66,7 +68,9 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
       book.reviews[username] = review;
 
-      return res.status(200).json({ message: "Review added successfully" });
+      return res.status(200).json({
+        message: `The review for ISBN ${isbn} has been added/updated`,
+      });
     } else {
       return res.status(400).json({ message: "Invalid ISBN" });
     }
@@ -92,7 +96,11 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     if (book) {
       if (book.reviews && book.reviews[username]) {
         delete book.reviews[username];
-        return res.status(200).json({ message: "Review deleted successfully" });
+        return res
+          .status(200)
+          .json({
+            message: `The review for ISBN ${isbn} posted by the user ${username} deleted.`,
+          });
       } else {
         return res.status(400).json({ message: "Review not found" });
       }

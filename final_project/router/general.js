@@ -42,7 +42,9 @@ public_users.post("/register", (req, res) => {
       // user.password = hashPassword(user.password);
 
       users.push(user);
-      return res.status(200).json({ message: "User registered successfully" });
+      return res.status(200).json({
+        message: "Customer successfully registered. Now you can login",
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Internal Server Error" });
@@ -64,7 +66,7 @@ function getAllBooks() {
 public_users.get("/", async (req, res) => {
   try {
     const allBooks = await getAllBooks();
-    res.status(200).json(allBooks);
+    res.status(200).json({ books: allBooks });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -111,7 +113,7 @@ function getBookDetailsByAuthor(author) {
 public_users.get("/author/:author", (req, res) => {
   const author = req.params.author;
   getBookDetailsByAuthor(author)
-    .then((book) => res.status(200).json(book))
+    .then((book) => res.status(200).json({ booksbyauthor: book }))
     .catch((err) => res.status(400).json({ message: err.message }));
   return;
 });
@@ -132,7 +134,7 @@ function getAllBooksByTitle(title) {
 public_users.get("/title/:title", function (req, res) {
   const title = req.params.title;
   getAllBooksByTitle(title)
-    .then((book) => res.status(200).json(book))
+    .then((book) => res.status(200).json({ booksbytitle: book }))
     .catch((err) => res.status(400).json({ message: err.message }));
 });
 
